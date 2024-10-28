@@ -1,59 +1,56 @@
 import java.util.Scanner;
 
-class BankAccount 
-{
+class BankAccount {
     private double balance;
 
-    public BankAccount(double initialBalance) 
-    {
+    public BankAccount(double initialBalance) {
         balance = initialBalance;
     }
 
-    public double getBalance() 
-    {
+    public double getBalance() {
         return balance;
     }
 
-    public void deposit(double amount) 
-   {
-        if(amount > 0) 
-        {
+    public void deposit(double amount) {
+        if (amount > 0) {
             balance += amount;
             System.out.println("Money Deposited: " + amount);
-        } 
-        else 
-        {
+        } else {
             System.out.println("Invalid amount for deposit!!!");
         }
     }
 
-    public void withdraw(double amount) 
-    {
-        if(amount > 0 && amount <= balance) 
-        {
+    public void withdraw(double amount) {
+        if (amount > 0 && amount <= balance) {
             balance -= amount;
             System.out.println("Money Withdrawn: " + amount);
-        }
-        else 
-        {
-            System.out.println("invalid amount for withdrawal!!!");
+        } else {
+            System.out.println("Invalid amount for withdrawal!!!");
         }
     }
 }
 
-class ATM 
-{
+class ATM {
     private BankAccount account;
     private Scanner scanner;
+    private String password = "1234"; // Fixed password
 
-    public ATM(BankAccount account) 
-    {
+    public ATM(BankAccount account) {
         this.account = account;
         scanner = new Scanner(System.in);
     }
 
-    public void showMenu() 
-    {
+    public void authenticate() {
+        System.out.print("Enter password to access ATM: ");
+        String inputPassword = scanner.nextLine();
+        if (inputPassword.equals(password)) {
+            start();
+        } else {
+            System.out.println("Incorrect password. Access denied!");
+        }
+    }
+
+    public void showMenu() {
         System.out.println("-------- WELCOME TO ATM --------");
         System.out.println("ATM Menu:");
         System.out.println("1. Check Balance");
@@ -62,8 +59,7 @@ class ATM
         System.out.println("4. Exit");
     }
 
-    public void start() 
-    {
+    public void start() {
         int choice;
         do {
             showMenu();
@@ -88,53 +84,27 @@ class ATM
         } while (choice != 4);
     }
 
-    private void checkBalance() 
-    {
+    private void checkBalance() {
         System.out.println("Current Balance: " + account.getBalance());
     }
 
-    private void deposit() 
-    {
+    private void deposit() {
         System.out.print("Enter deposit amount: ");
         double amount = scanner.nextDouble();
         account.deposit(amount);
     }
 
-    private void withdraw() 
-    {
+    private void withdraw() {
         System.out.print("Enter withdrawal amount: ");
         double amount = scanner.nextDouble();
         account.withdraw(amount);
     }
 }
 
-public class Main 
-{
-    public static void main(String[] args) 
-    {
+public class Main {
+    public static void main(String[] args) {
         BankAccount userAccount = new BankAccount(1000);
         ATM atm = new ATM(userAccount);
-        atm.start();
+        atm.authenticate();
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
